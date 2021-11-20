@@ -3,7 +3,11 @@
 
 1. Установите средство виртуализации [Oracle VirtualBox](https://www.virtualbox.org/).
 
+	* pacman -S virtualbox
+
 1. Установите средство автоматизации [Hashicorp Vagrant](https://www.vagrantup.com/).
+
+	* pacman -S vagrant
 
 1. В вашем основном окружении подготовьте удобный для дальнейшей работы терминал. Можно предложить:
 
