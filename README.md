@@ -68,19 +68,17 @@
 	(прочие строки могут отличаться содержимым и порядком)
     В качестве ответа приведите команды, которые позволили вам добиться указанного вывода или соответствующие скриншоты.
 
-    ```bash
-    vagrant@vagrant:~$ type -a bash
-bash is /usr/bin/bash
-bash is /bin/bash
-vagrant@vagrant:~$ mkdir /tmp/new_path_dir
-vagrant@vagrant:~$ cp /bin/bash /tmp/new_path_dir/
-vagrant@vagrant:~$ PATH=/tmp/new_path_dir/:$PATH
-vagrant@vagrant:~$ type -a bash
-bash is /tmp/new_path_dir/bash
-bash is /usr/bin/bash
-bash is /bin/bash
-vagrant@vagrant:~$ 
-	```
+    vagrant@vagrant:~$ type -a bash  
+    bash is /usr/bin/bash  
+    bash is /bin/bash  
+    vagrant@vagrant:~$ mkdir /tmp/new_path_dir  
+    vagrant@vagrant:~$ cp /bin/bash /tmp/new_path_dir/  
+    vagrant@vagrant:~$ PATH=/tmp/new_path_dir/:$PATH  
+    vagrant@vagrant:~$ type -a bash  
+    bash is /tmp/new_path_dir/bash  
+    bash is /usr/bin/bash  
+    bash is /bin/bash  
+    vagrant@vagrant:~$
 
 
 1. Чем отличается планирование команд с помощью `batch` и `at`?
