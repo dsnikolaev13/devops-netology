@@ -20,6 +20,21 @@ chdir("/tmp") .
     openat(AT_FDCWD, "/usr/share/misc/magic.mgc", O_RDONLY) = 3. База данных находится: /usr/share/misc/magic.mgc.   
     
 1. Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), однако возможности сигналом сказать приложению переоткрыть файлы или просто перезапустить приложение – нет. Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла (чтобы освободить место на файловой системе).
+  
+    **Ответ:**
+Сделал на примере vi. Сохранил текст и оставил открытым в vi    
+    
+    ```bash
+    vagrant@vagrant:~$ ps aux | grep vi
+    vagrant     1641  0.0  0.9  24468  9772 pts/0    S+   18:06   0:00 vi test.txt
+    vagrant     1654  0.0  0.0   9032   736 pts/1    S+   18:08   0:00 grep --color=auto vi
+    vagrant@vagrant:~$ rm test.txt
+    vagrant@vagrant:~$ lsof -p 1641 | grep test
+    vi      1641 vagrant    3u   REG  253,0    12288 131088 /home/vagrant/.test.txt.swp
+    vagrant@vagrant:~$ cat /dev/null > /proc/1641/fd/3
+    vagrant@vagrant:~$ lsof -p 1641 | grep test
+    vi      1641 vagrant    3u   REG  253,0        0 131088 /home/vagrant/.test.txt.swp
+    ```
 1. Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
 
     **Ответ:**
