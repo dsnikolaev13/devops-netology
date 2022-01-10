@@ -32,17 +32,18 @@ chdir("/tmp") .
     ```
     На какие файлы вы увидели вызовы группы `open` за первую секунду работы утилиты? Воспользуйтесь пакетом `bpfcc-tools` для Ubuntu 20.04. Дополнительные [сведения по установке](https://github.com/iovisor/bcc/blob/master/INSTALL.md).
   
-    **Ответ:**  
-root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
-/usr/sbin/opensnoop-bpfcc
-root@vagrant:~# /usr/sbin/opensnoop-bpfcc
-PID    COMM               FD ERR PATH
-782    vminfo              5   0 /var/run/utmp
-608    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services
-608    dbus-daemon        18   0 /usr/share/dbus-1/system-services
-608    dbus-daemon        -1   2 /lib/dbus-1/system-services
-608    dbus-daemon        18   0 /var/lib/snapd/dbus-1/system-services/
-
+    **Ответ:**
+    ```bash
+    root@vagrant:~# dpkg -L bpfcc-tools | grep sbin/opensnoop
+    /usr/sbin/opensnoop-bpfcc
+    root@vagrant:~# /usr/sbin/opensnoop-bpfcc
+    PID    COMM               FD ERR PATH
+    782    vminfo              5   0 /var/run/utmp
+    608    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services
+    608    dbus-daemon        18   0 /usr/share/dbus-1/system-services
+    608    dbus-daemon        -1   2 /lib/dbus-1/system-services
+    608    dbus-daemon        18   0 /var/lib/snapd/dbus-1/system-services/
+    ```
 1. Какой системный вызов использует `uname -a`? Приведите цитату из man по этому системному вызову, где описывается альтернативное местоположение в `/proc`, где можно узнать версию ядра и релиз ОС.
 
     **Ответ:**
