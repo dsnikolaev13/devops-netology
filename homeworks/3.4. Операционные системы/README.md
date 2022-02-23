@@ -1,15 +1,14 @@
 # Домашнее задание к занятию "3.4. Операционные системы, лекция 2"
 
-1. На лекции мы познакомились с [node_exporter](https://github.com/prometheus/node_exporter/releases). В демонстрации его исполняемый файл запускался в background. Этого достаточно для демо, но не для настоящей production-системы, где процессы должны находиться под внешним управлением. Используя знания из лекции по systemd, создайте самостоятельно простой [unit-файл](https://www.freedesktop.org/software/systemd/man/systemd.service.html) для node_exporter:
+1. На лекции мы познакомились с [node_exporter](https://github.com/prometheus/node_exporter/releases). В демонстрации его исполняемый файл запускался в background. Этого достаточно для демо, но не для настоящей production-системы, где процессы должны находиться под внешним управлением. Используя знания из лекции по systemd, создайте самостоятельно простой [unit-файл](https://www.freedesktop.org/software/systemd/man/systemd.service.html) для node_exporter: 
 
-    * поместите его в автозагрузку,
-    * предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
-    * удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.  
-    
-    **Ответ:**  
-    unit-файл
-    ```bash
-    
+* поместите его в автозагрузку,
+* предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на `systemctl cat cron`),
+* удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается. 
+
+**Ответ:**  
+unit-файл
+```bash
         [Unit]
         Description=Prometheus Node Exporter
         Wants=network-online.target
@@ -22,11 +21,11 @@
         ExecStart=/usr/local/bin/node_exporter
 
         [Install]
-        WantedBy=multi-user.target
-    ```
-    Процесс корректно стартует, завершается и автоматически поднимается после перезапуска.
-    
-    ```bash
+        WantedBy=multi-user.target 
+```
+Процесс корректно стартует, завершается и автоматически поднимается после перезапуска. 
+
+```bash
     
         vagrant@vagrant:~$ ps -e |grep node_exporter 
            802 ?        00:00:00 node_exporter
@@ -46,12 +45,12 @@
         vagrant@vagrant:~$ ps -e | grep node_exporter
            1620 ?        00:00:00 node_exporter
         vagrant@vagrant:~$ 
-    ```
-       ![Node_exporter](img/node_exporter.png)  
+```
+![Node_exporter](img/node_exporter.png) 
 
-1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
+2. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети. 
 
-    **Ответ:**  
+**Ответ:**  
 
 CPU:
     node_cpu_seconds_total{cpu="0",mode="idle"} 7734.62
@@ -77,7 +76,7 @@ Network(так же для каждого активного адаптера):
     node_network_receive_bytes_total{device="eth0"} 1.697784e+06
     node_network_transmit_bytes_total{device="eth0"} 1.348219e+06  
 
-1. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
+3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
     * в конфигурационном файле `/etc/netdata/netdata.conf` в секции [web] замените значение с localhost на `bind to = 0.0.0.0`,
     * добавьте в Vagrantfile проброс порта Netdata на свой локальный компьютер и сделайте `vagrant reload`:
 
