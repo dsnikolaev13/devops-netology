@@ -47,7 +47,7 @@
            1620 ?        00:00:00 node_exporter
         vagrant@vagrant:~$ 
     ```
-       ![ ](/home/dnikolaev/Рабочий стол/node_exporter.png  "Node_exporter")  
+       ![Node_exporter](node_exporter.png)  
 
 1. Ознакомьтесь с опциями node_exporter и выводом `/metrics` по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
