@@ -137,17 +137,18 @@ Network(так же для каждого активного адаптера):
 **Ответ:**
 
 ```bash
+        vagrant@vagrant:~$ sudo unshare -f --pid --mount-proc sleep 1h && pidof sleep
+        
+        В отдельном нейспейсе
+        
         root@vagrant:~# ps -e | grep sleep
-           1454 pts/0    00:00:00 sleep
-        root@vagrant:~# nsenter --target 1454 --pid --mount
-        root@vagrant:/# ps
-            PID TTY          TIME CMD
-           1534 pts/1    00:00:00 sudo
-           1536 pts/1    00:00:00 bash
-           1555 pts/1    00:00:00 nsenter
-           1556 pts/1    00:00:00 bash
-           1565 pts/1    00:00:00 ps
-
+           1777 pts/1    00:00:00 sleep
+        root@vagrant:~# nsenter --target 1777 --pid --mount
+        root@vagrant:/# ps -e
+           PID TTY          TIME CMD
+           1 pts/1    00:00:00 sleep
+           2 pts/0    00:00:00 bash
+          16 pts/0    00:00:00 ps
 ``` 
 
 7. Найдите информацию о том, что такое `:(){ :|:& };:`. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04 (**это важно, поведение в других ОС не проверялось**). Некоторое время все будет "плохо", после чего (минуты) – ОС должна стабилизироваться. Вызов `dmesg` расскажет, какой механизм помог автоматической стабилизации. Как настроен этот механизм по-умолчанию, и как изменить число процессов, которое можно создать в сессии?
