@@ -18,7 +18,7 @@ unit-файл
         User=node_exporter
         Group=node_exporter
         Type=simple
-        ExecStart=/usr/local/bin/node_exporter
+        ExecStart=/usr/local/bin/node_exporter $OPTIONS
 
         [Install]
         WantedBy=multi-user.target 
