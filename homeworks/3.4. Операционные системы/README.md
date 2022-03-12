@@ -18,6 +18,7 @@ unit-файл
         User=node_exporter
         Group=node_exporter
         Type=simple
+        EnvironmentFile=-/etc/sysconfig/node_exporter
         ExecStart=/usr/local/bin/node_exporter $OPTIONS
 
         [Install]
