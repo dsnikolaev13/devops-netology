@@ -106,7 +106,7 @@
         ip = s.gethostbyname(host)
         if ip != curl[host]:
           if i==1 and init !=1:
-            print(curl(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +' [ERROR] ' + curl(host) +' несоответствие IP:       '+curl[host]+' '+ip)
+            print(curl(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +' [ERROR] ' + str(host) +' несоответствие IP:       '+curl[host]+' '+ip)
           curl[host]=ip
       i+=1 
       if i >= 10 : 
