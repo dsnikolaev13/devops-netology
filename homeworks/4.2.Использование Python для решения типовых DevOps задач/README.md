@@ -47,7 +47,6 @@
     fullpath="~/devops-pu-netology"
 
     bash_command = ["cd "+fullpath, "git status"]
-    #bash_command = ["cd ~/devops-pu-netology", "git    status"]
     result_os = os.popen(' && '.join(bash_command)).read()
     is_change = False
     for result in result_os.split('\n'):
