@@ -17,7 +17,7 @@
 	```
   Нужно найти и исправить все ошибки, которые допускает наш сервис
 
-    **Ответ:**  
+   **Ответ:**  
 
   Нехватает ковычек во втором эелементе:
 
@@ -62,7 +62,7 @@
           if i==1 and init !=1:
             is_error=True
             with open(flog,'a') as fl:
-              print(str(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +' [ERROR] ' + str(host) +' IP mistmatch: '+curl[host]+' '+ip,file=fl)
+              print(str(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) +' [ERROR] ' + str(host) +' несоответствие IP: '+curl[host]+' '+ip,file=fl)
     
             with open(fpath+host+".json",'w') as jsf:
               json_data= json.dumps({host:ip})
