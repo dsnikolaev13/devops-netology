@@ -102,13 +102,13 @@ Time-wait - это состояние когда сокет отправил п�
 
     **Ответ:**  
     ```bash
-vagrant@vagrant:~$ sudo ss -tlp
-State                 Recv-Q                Send-Q                               Local Address:Port                                 Peer Address:Port               Process                                                                 
-LISTEN                0                     4096                                       0.0.0.0:sunrpc                                    0.0.0.0:*                   users:(("rpcbind",pid=556,fd=4),("systemd",pid=1,fd=35))               
-LISTEN                0                     4096                                 127.0.0.53%lo:domain                                    0.0.0.0:*                   users:(("systemd-resolve",pid=558,fd=13))                              
-LISTEN                0                     128                                        0.0.0.0:ssh                                       0.0.0.0:*                   users:(("sshd",pid=811,fd=3))                                          
-LISTEN                0                     4096                                          [::]:sunrpc                                       [::]:*                   users:(("rpcbind",pid=556,fd=6),("systemd",pid=1,fd=37))               
-LISTEN                0                     128                                           [::]:ssh                                          [::]:*                   users:(("sshd",pid=811,fd=4))    
+    vagrant@vagrant:~$ sudo ss -tlp
+    State                 Recv-Q                Send-Q                               Local Address:Port                                 Peer Address:Port                   Process                                                                 
+    LISTEN                0                     4096                                       0.0.0.0:sunrpc                                    0.0.0.0:*                       users:(("rpcbind",pid=556,fd=4),("systemd",pid=1,fd=35))               
+    LISTEN                0                     4096                                 127.0.0.53%lo:domain                                    0.0.0.0:*                       users:(("systemd-resolve",pid=558,fd=13))                              
+    LISTEN                0                     128                                        0.0.0.0:ssh                                       0.0.0.0:*                       users:(("sshd",pid=811,fd=3))                                          
+    LISTEN                0                     4096                                          [::]:sunrpc                                       [::]:*                       users:(("rpcbind",pid=556,fd=6),("systemd",pid=1,fd=37))               
+    LISTEN                0                     128                                           [::]:ssh                                          [::]:*                       users:(("sshd",pid=811,fd=4))    
     ```
 
 1. Какой ключ нужно добавить в `tcpdump`, чтобы он начал выводить не только заголовки, но и содержимое фреймов в текстовом виде? А в текстовом и шестнадцатиричном?
