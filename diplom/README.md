@@ -5,7 +5,8 @@
 ___
 
 Зарегистрировали доменное имя в https://www.reg.ru/
-![img.png](.png)
+
+nikolaev63.ru
 
 ### 2. Создание инфраструктуры
 
@@ -39,7 +40,7 @@ secret: YCM**********************
 2. Подготовьте [backend](https://www.terraform.io/docs/language/settings/backends/index.html) для Terraform. Остановим выбор на альтернативном варианте:  [S3 bucket в созданном YC аккаунте](https://cloud.yandex.ru/docs/storage/operations/buckets/create).
 Создали бакет в YC:
 
-![](.png)
+![Бакет](src/screenshots/backend.png)
 
 Конфигурация содержится в файле [provider.tf](./src/terraform/provider.tf):
 
@@ -89,7 +90,7 @@ provider "yandex" {
 ### 3. Настройка workspaces 
 
 Создаем workspaces `prod` и `stage`:
-<details><summary>Результат работы</summary>
+
 ```bash 
     ~/devopsdiplom/src/terraform  terraform workspace new prod
 Created and switched to workspace "prod"!
@@ -147,10 +148,10 @@ resource "yandex_vpc_route_table" "route-table-nat-inet" {
 
 Все ВМ успешно создаются, роли ansible успешно отрабатывают:
 
-![](VM.png)
+![Виртуальные машины](src/screenshots/VM.png)
 
 ---
-### Установка Nginx и LetsEncrypt
+### 6. Установка Nginx и LetsEncrypt
 
 Необходимо разработать Ansible роль для установки Nginx и LetsEncrypt.
 
@@ -167,24 +168,54 @@ resource "yandex_vpc_route_table" "route-table-nat-inet" {
 Ожидаемые результаты:
 
 1. В вашей доменной зоне настроены все A-записи на внешний адрес этого сервера:
-    - `https://www.mycompanyname.ru` (WordPress)
-    - `https://gitlab.mycompanyname.ru` (Gitlab)
-    - `https://grafana.mycompanyname.ru` (Grafana)
-    - `https://prometheus.mycompanyname.ru` (Prometheus)
-    - `https://alertmanager.mycompanyname.ru` (Alert Manager)
+    - `https://www.nikolaev63.ru` (WordPress)
+    - `https://gitlab.nikolaev63.ru` (Gitlab)
+    - `https://grafana.nikolaev63.ru` (Grafana)
+    - `https://prometheus.nikolaev63.ru` (Prometheus)
+    - `https://alertmanager.nikolaev63.ru` (Alert Manager)
 2. Настроены все upstream для выше указанных URL, куда они сейчас ведут на этом шаге не важно, позже вы их отредактируете и укажите верные значения.
 3. В браузере можно открыть любой из этих URL и увидеть ответ сервера (502 Bad Gateway). На текущем этапе выполнение задания это нормально!
 
 ___
 
-### 1. 
+1. 
 [Резервирование статического IP-адреса по инструкции](https://cloud.yandex.ru/docs/vpc/operations/get-static-ip) 
 
-### 2. 
+2. 
 Добавление А-записей в DNS нашей доменной зоны:
 
-![](dns.png)
+![DNS](src/screenshots/dns.png)
 
-### 3. 
+3. 
 Создание ВМ с nginx и letsencrypt. Воспользуемся предварительным конфигом ВМ из предыдущего пункта диплома,
 [инструкцией по установке nginx и letsencrypt](https://gist.github.com/mattiaslundberg/ba214a35060d3c8603e9b1ec8627d349) для написания собственной роли по настройке nginx reverse-proxy.
+
+### 7.Установка кластера MySQL
+
+При подготовке ansible роли [mysql](https://github.com/dsnikolaev13/devops-netology/tree/main/diplom/src/ansible/mysql) использовали [готовую роль](https://galaxy.ansible.com/geerlingguy/mysql)
+
+### 8.Установка WordPress
+
+1. [tf-файл ВМ с WordPress](./src/terraform/wordpress.tf)
+2. Настроена A-запись в доменной зоне nikolaev63.ru
+3. [Upstream для WordPress.](./src/ansible/nginx-proxy/templates/nginx-nikolaev63.j2)
+
+### 9.Установка Gitlab CE и Gitlab Runner
+
+Для установки gitlab и gitlab-runner использовал роли [ansible-gitlab](https://github.com/dsnikolaev13/devops-netology/tree/main/diplom/src/ansible/gitlab) и [ansible-gitlab-runner](https://github.com/dsnikolaev13/devops-netology/tree/main/diplom/src/ansible/gitlab-runner)
+
+Результат работы
+![Cloud](src/screenshots/Clouds.png)
+
+### 10.Установка Prometheus, Alert Manager, Node Exporter и Grafana
+
+Добавлен [terraform манифест](./src/terraform/monitoring.tf) для ВМ monitoring.mycompanyname.ru
+
+Роли:
+* [grafana](./src/ansible/grafana)
+* [prometheus](./src/ansible/prometheus)
+* [alertmanager](./src/ansible/alertmanager)
+* [node-exporter](./src/ansible/node-exporter)
+
+Результаты работы.
+![monitor](src/screenshots/monitor.png)
