@@ -1,0 +1,2 @@
+[letsencrypt]
+nikolaev63.ru ansible_user=ubuntu letsencrypt_email=nikolaev.denis86@yandex.ru domain_name=nikolaev63.ru

@@ -1,0 +1,9 @@
+    endpoint = "storage.yandexcloud.net"
+    bucket = "nikolaev-diplom-devops"
+    region = "ru-central1-a"
+    key = "stage/terraform-stage.tfstate"
+    skip_region_validation = true
+    skip_credentials_validation = true
+    access_key = "YCA****"
+    secret_key = "YCN****"
+

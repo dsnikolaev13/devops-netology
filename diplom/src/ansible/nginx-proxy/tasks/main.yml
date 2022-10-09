@@ -1,0 +1,106 @@
+---
+# tasks file for nginx-proxy
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+#Network settings
+    - name: Create Iptables NAT chain
+      iptables:
+       table: nat
+       chain: POSTROUTING
+       out_interface: 'eth0'
+       jump: MASQUERADE
+    - name: Enable IPv4 forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+        state: present
+        reload: True
+    - name: Install IPtables-persistent
+      apt:
+        name=iptables-persistent
+        state=present        
+#LE install        
+    - name: install letsencrypt
+      apt:
+        name: letsencrypt
+        state: latest
+    - name: create letsencrypt directory
+      file:
+        name: /var/www/letsencrypt
+        state: directory
+#Nginx config
+    - name: Remove default nginx config
+      file:
+        name: /etc/nginx/sites-enabled/default
+        state: absent
+    - name: Install system nginx config
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+# Генерация сайта для зароса на выпуск сертификатов
+    - name: Install nginx site for letsencrypt requests
+      template:
+        src: templates/nginx-http.j2
+        dest: /etc/nginx/sites-enabled/http
+    - name: Reload nginx to activate letsencrypt site
+      service:
+        name: nginx
+        state: restarted
+# Запрос на выпуск сертификатов
+    - name: Create letsencrypt certificate {{ domain_name }}
+#      shell: letsencrypt certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_names }}
+      shell: letsencrypt certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_names }}
+      args:
+        creates: /etc/letsencrypt/live/{{ domain_name }}
+#    - name: Create letsencrypt certificate {{ gitlab }}
+#      shell: letsencrypt certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ gitlab }}
+#      args:
+#        creates: /etc/letsencrypt/live/{{ gitlab }}
+#    - name: Create letsencrypt certificate {{ grafana }}
+#      shell: letsencrypt certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ grafana }}
+#      args:
+#        creates: /etc/letsencrypt/live/{{ grafana }}
+#    - name: Create letsencrypt certificate {{ prometheus }}
+#      shell: letsencrypt certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ prometheus }}
+#      args:
+#        creates: /etc/letsencrypt/live/{{ prometheus }}
+#    - name: Create letsencrypt certificate {{ alertmanager }}
+#      shell: letsencrypt certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ alertmanager }}
+#      args:
+#        creates: /etc/letsencrypt/live/{{ alertmanager }}
+    - name: Generate dhparams
+      shell: openssl dhparam -out /etc/nginx/dhparams.pem 2048
+      args:
+        creates: /etc/nginx/dhparams.pem
+#добавление сайтов сервисов
+    - name: Install nginx site for nikolaev63.ru
+      template:
+        src: templates/nginx-nikolaev63.j2
+        dest: /etc/nginx/sites-enabled/nikolaev63
+    - name: Install nginx site for GITLAB
+      template:
+        src: templates/nginx-gitlab.j2
+        dest: /etc/nginx/sites-enabled/gitlab
+    - name: Install nginx site for GRAFANA
+      template:
+        src: templates/nginx-grafana.j2
+        dest: /etc/nginx/sites-enabled/grafana
+    - name: Install nginx site for PROMETHEUS
+      template:
+        src: templates/nginx-prometheus.j2
+        dest: /etc/nginx/sites-enabled/prometheus
+    - name: Install nginx site for ALERTMANAGER
+      template:
+        src: templates/nginx-alertmanager.j2
+        dest: /etc/nginx/sites-enabled/alertmanager
+    - name: Reload nginx to activate specified site
+      service: name=nginx state=restarted
+    - name: Add letsencrypt cronjob for cert renewal
+      cron:
+        name: letsencrypt_renewal
+        special_time: weekly
+#        job: letsencrypt --renew certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_names }} && service nginx reload
+        job: letsencrypt --renew certonly -n --webroot -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_names }} && service nginx reload
+#        job: letsencrypt --renew certonly -n --webroot --test-cert -w /var/www/letsencrypt -m {{ letsencrypt_email }} --agree-tos -d {{ domain_name }}, {{ gitlab }}, {{ grafana }}, {{ prometheus }}, {{ alertmanager }} && service nginx reload

@@ -1,0 +1,4 @@
+---
+# vars file for node_exporter
+#node_exporter_version : latest
+node_exporter_version: 1.3.1

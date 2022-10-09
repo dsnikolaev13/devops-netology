@@ -1,0 +1,18 @@
+---
+# defaults file for wordpress
+#System Settings
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+
+#MySQL Settings
+mysql_root_password: "root"
+mysql_db: "wordpress"
+mysql_user: "wordpress"
+mysql_password: "wordpress"
+mysql_server: "db01.nikolaev63.ru"
+
+#HTTP Settings
+http_host: "www.nikolaev63.ru"
+http_conf: "www.nikolaev63.ru.conf"
+http_port: "80"
+
+

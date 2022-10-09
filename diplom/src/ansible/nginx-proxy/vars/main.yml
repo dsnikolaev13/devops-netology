@@ -1,0 +1,9 @@
+---
+# vars file for nginx-proxy
+domain_name: www.nikolaev63.ru
+gitlab: gitlab.nikolaev63.ru
+grafana: grafana.nikolaev63.ru
+prometheus: prometheus.nikolaev63.ru
+alertmanager: alertmanager.nikolaev63.ru
+letsencrypt_email: example@nikolaev63.ru
+domain_names: www.nikolaev63.ru,nikolaev63.ru,grafana.nikolaev63.ru,prometheus.nikolaev63.ru,alertmanager.nikolaev63.ru,gitlab.nikolaev63.ru

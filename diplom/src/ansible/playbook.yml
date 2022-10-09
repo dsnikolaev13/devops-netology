@@ -1,0 +1,54 @@
+### hostname from inventoryfile
+
+- hosts: nginx
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - nginx-proxy
+  - node-exporter
+
+- hosts: mysql
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - mysql
+
+- hosts: wordpress
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - wordpress
+  - node-exporter
+
+- hosts: gitlab
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - gitlab
+  - node-exporter
+
+- hosts: runner
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - gitlab-runner
+  - node-exporter
+  tags:
+    runner
+
+- hosts: monitoring
+  become: yes
+  become_user: root
+  remote_user: ubuntu
+  roles:
+  - node-exporter
+  - prometheus
+  - alertmanager
+  - grafana
+  tags:
+    monitoring  

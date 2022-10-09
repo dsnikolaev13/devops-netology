@@ -1,0 +1,4 @@
+---
+# vars file for grafana
+#grafana_version : latest
+grafana_version : 9.0.3

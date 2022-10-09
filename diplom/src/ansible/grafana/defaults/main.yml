@@ -1,0 +1,4 @@
+---
+grafana_provision_dashboards: true
+grafana_provisioning_synced: true
+grafana_dashboards_dir: grafana/templates/provisioning/dashboards
