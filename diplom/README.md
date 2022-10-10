@@ -209,7 +209,7 @@ ___
 
 ### 10.Установка Prometheus, Alert Manager, Node Exporter и Grafana
 
-Добавлен [terraform манифест](./src/terraform/monitoring.tf) для ВМ monitoring.mycompanyname.ru
+Добавлен [terraform манифест](./src/terraform/monitoring.tf) для ВМ monitoring.nikolaev63.ru
 
 Роли:
 * [grafana](./src/ansible/grafana)
